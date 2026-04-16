@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -28,13 +29,69 @@
 
   <title>nikhat_flutter</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    body {
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    #splash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ffffff;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
+    }
+
+    #splash img {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
+    }
+
+    .fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
 </head>
+
 <body>
+  <div id="splash">
+    <img src="icons/full_logo.webp" alt="Loading...">
+  </div>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
   <script>
-    const serviceWorkerVersion = "2092851326" /* Flutter's service worker is deprecated and will be removed in a future Flutter release. */;
+    const serviceWorkerVersion = "2029111535" /* Flutter's service worker is deprecated and will be removed in a future Flutter release. */;
     var scriptLoaded = false;
     function loadMainDartJs() {
       if (scriptLoaded) {
@@ -96,6 +153,18 @@
       // Service workers not supported. Just drop the <script> tag.
       loadMainDartJs();
     }
+
+    // Hide splash screen when Flutter is ready
+    window.addEventListener('flutter-first-frame', function () {
+      var splash = document.getElementById('splash');
+      if (splash) {
+        splash.classList.add('fade-out');
+        setTimeout(function () {
+          splash.remove();
+        }, 500);
+      }
+    });
   </script>
 </body>
+
 </html>
